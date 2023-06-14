@@ -74,3 +74,65 @@ class Solution
         return;
     }
 };
+
+//Optimised approach
+Node*p=NULL,*s=NULL;
+    void ino(Node*root,int key){
+        if(!root) return;
+        ino(root->left,key);
+        if(key>root->key) p=root;
+        else if(key<root->key and !s) s=root;
+        ino(root->right,key);
+    }
+    void findPreSuc(Node* root, Node*& pre, Node*& suc, int key)
+    {
+       ino(root,key);
+       pre=p,suc=s;
+    }
+
+
+//Improved version of my approach
+class Solution
+{
+       void inorder(Node* root,vector<Node*> &v)
+       {
+           if(root==NULL)
+           return ;
+           
+           inorder(root->left,v);
+           v.push_back(root);
+           inorder(root->right,v);
+           
+       }
+    
+    
+    
+    
+    public:
+    void findPreSuc(Node* root, Node*& pre, Node*& suc, int key)
+    {
+        // Your code goes here
+        
+        vector<Node*> v;
+        inorder(root,v);
+        
+        
+        //  for(int i=0;i<v.size();i++)
+        //  cout<<v[i]->key<<" ";
+        //  cout<<endl;
+        
+          for(int i=v.size()-1;i>=0;i--)
+           {  if(v[i]->key>key)
+             suc=v[i];}
+             
+             
+             for(int i=0;i<v.size();i++)
+           {  if(v[i]->key<key)
+             pre=v[i];}
+             
+             
+             
+             
+        
+    }
+};
